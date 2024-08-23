@@ -15,6 +15,17 @@ class Cadeteria
     private void tomarPedido(){
         string nombre,direccion,telefono,datosReferenciaDireccion;
         Pedido nuevoPedido = new Pedido();
-        Console.WriteLine("In")
+        Console.WriteLine("Ingrese Nombre Cliente:");
+        nombre = Console.ReadLine();
+        Console.WriteLine("Ingrese Direccion Cliente:");
+        direccion = Console.ReadLine();
+        Console.WriteLine("Ingrese Referencia de Direccion:");
+        datosReferenciaDireccion = Console.ReadLine();
+        Console.WriteLine("Ingrese Telefono:");
+        telefono = Console.ReadLine();
+        
+    }
+    private int crearNumeroPedido(){
+        return numero;
     }
 }
