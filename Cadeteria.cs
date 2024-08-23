@@ -3,18 +3,19 @@ class Cadeteria
     private string nombre;
     private string telefono;
     private List<Cadete> listadoCadetes;
+    private List<Pedido> listadoTotalPedidos;
 
     private void atenderLlamada(){
-        bool realizaPedido = false;
-        if (realizaPedido)
+        Console.WriteLine("Desea cargar pedido?\n1.SI\n2.NO");
+        char respuesta = Console.ReadKey().KeyChar;
+        if (respuesta == '1')
         {
-            tomarPedido();
+            listadoTotalPedidos.Add(tomarPedido());
         }
 
     }
-    private void tomarPedido(){
-        string nombre,direccion,telefono,datosReferenciaDireccion;
-        Pedido nuevoPedido = new Pedido();
+    private Pedido tomarPedido(){
+        string nombre,direccion,telefono,datosReferenciaDireccion,obs;
         Console.WriteLine("Ingrese Nombre Cliente:");
         nombre = Console.ReadLine();
         Console.WriteLine("Ingrese Direccion Cliente:");
@@ -23,9 +24,20 @@ class Cadeteria
         datosReferenciaDireccion = Console.ReadLine();
         Console.WriteLine("Ingrese Telefono:");
         telefono = Console.ReadLine();
-        
+        Console.WriteLine("Ingrese observacion:");
+        obs = Console.ReadLine();
+        return new Pedido(crearNumeroPedido(listadoTotalPedidos),obs,nombre,direccion,datosReferenciaDireccion,telefono);
     }
-    private int crearNumeroPedido(){
-        return numero;
+    private int crearNumeroPedido(List<Pedido> listadoTotal){
+        int cant = listadoTotal.Count;
+        if(cant != 0){
+            var aux = listadoTotal.ToArray();
+            int ultimoNumero = aux[cant].Nro;
+            return ultimoNumero++;
+        }
+        else
+        {
+            return 1000;
+        }
     }
 }

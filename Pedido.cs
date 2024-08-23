@@ -15,11 +15,13 @@ class Pedido
         estado = Estado.Pendiente;
     }
 
+    public int Nro { get => nro;}
 }
 
 enum Estado {
     Entregado,
-    Cancelado,
+    CanceladoPorCliente,
+    CanceladoPorCadeta,
     Pendiente,
     Robado,
 
