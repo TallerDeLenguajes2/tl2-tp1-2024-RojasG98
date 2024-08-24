@@ -1,15 +1,27 @@
 class Cadeteria
 {
+    const string archivoCadetes = "/csv";
     private string nombre;
     private string telefono;
     private List<Cadete> listadoCadetes;
 
     private List<Pedido> listadoTotalPedidos;
+
+    public Cadeteria(string nombre, string telefono, List<Cadete> cadetes, List<Pedido> pedidos)
+    {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        listadoCadetes = cadetes;
+        listadoTotalPedidos = pedidos;
+    }
+
+    public string Nombre { get => nombre;}
+
     private void asignarPedido(Pedido nuevoPedido)
     {
         int aux = 0;
         int id = 0;
-        Cadete cadeteAux ;
+        Cadete cadeteAux;
         foreach (var cadete in listadoCadetes)
         {
             if (aux < cadete.ListadoPedidos.Count)
@@ -18,8 +30,9 @@ class Cadeteria
                 aux = cadete.ListadoPedidos.Count;
             }
         }
-        if(listadoCadetes.Exists(x => x.Id == id)){
-            cadeteAux =  listadoCadetes.Find(x => x.Id == id);
+        if (listadoCadetes.Exists(x => x.Id == id))
+        {
+            cadeteAux = listadoCadetes.Find(x => x.Id == id);
             cadeteAux.agregarPedido(nuevoPedido);
         }
         else
@@ -27,8 +40,9 @@ class Cadeteria
             Console.WriteLine("Error al agregar el pedido");
         }
     }
-    private void reasignarPedido(){
-        int id,numero;
+    private void reasignarPedido()
+    {
+        int id, numero;
         Cadete cadeteAux;
         Pedido pedidoAux;
         mostrarCadetes();
@@ -111,6 +125,23 @@ class Cadeteria
                 Console.Write("\n");
             }
         }
+    }
+    public void LeerCadetes()
+    {
+        List<string> lineas = new List<string>();
 
+        using (StreamReader sr = new StreamReader(archivoCadetes))
+        {
+            string linea;
+            sr.ReadLine();
+            while ((linea = sr.ReadLine()) != null)
+            {
+                string[] valores = linea.Split(',');
+
+                Cadete cadete = new Cadete(int.Parse(valores[0]), valores[1], valores[2], valores[3], new List<Pedido>());
+
+                listadoCadetes.Add(cadete);
+            }
+        }
     }
 }
