@@ -1,4 +1,6 @@
 
+using System.Security.Cryptography.X509Certificates;
+
 class Cadete
 {
     private const float pagoPorEnvio = 500;
@@ -32,5 +34,12 @@ class Cadete
             Console.WriteLine("Id: ",pedidos.Nro);
             pedidos.verDatosCliente();
         }
+    }
+    public void borrarPedido(Pedido pedidoABorrar){
+        listadoPedidos.Remove(pedidoABorrar);
+    }
+
+    public void agregarPedido(Pedido pedidoAAgregar){
+        listadoPedidos.Add(pedidoAAgregar);
     }
 }
