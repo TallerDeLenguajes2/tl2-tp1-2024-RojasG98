@@ -7,6 +7,7 @@ class Pedido
     private string obs;
     private Cliente cliente;
     private Estado estado;
+    private Cadete cadete;
 
     public Pedido(int nro, string obs,string nombre, string direccion, string referencia, string telefono)
     {
@@ -18,6 +19,7 @@ class Pedido
 
     public int Nro { get => nro;}
     internal Estado Estado { get => estado;}
+    internal Cadete Cadete { get => cadete;}
 
     public void verDatosCliente(){
         Console.WriteLine("Datos Cliente:");
@@ -46,6 +48,10 @@ class Pedido
                 break;
         }
     }
+    public void asignarCadete(Cadete cadeteAux){
+        cadete = cadeteAux;
+    }
+    
 }
 
 enum Estado {
