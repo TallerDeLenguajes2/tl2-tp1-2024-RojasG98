@@ -38,7 +38,9 @@ class Sistema
         }
         Console.WriteLine("Escriba el nombre la sucursal:");
         nombre = Console.ReadLine();
-        return Sucursales.Find(x => x.Nombre.Contains(nombre));
+        Cadeteria seleccionada = Sucursales.Find(x => x.Nombre.Contains(nombre));
+        seleccionada.LeerCadetes();
+        return seleccionada;
     }
 
     public int menuPrincipal()
@@ -64,6 +66,24 @@ class Sistema
             }
         } while (!respuesta && (numero == 1 || numero == 2 || numero == 3 || numero == 4 || numero== 5));
         return numero;
+    }
+
+    public void hacerTarea(int tarea, Cadeteria sucursal){
+        switch (tarea)
+        {
+            case 1:
+                sucursal.atenderLlamada();
+                break;
+            case 2:
+                sucursal.atenderLlamada();
+                break;
+            case 3:
+                sucursal.cambiarEstadoPedidos();
+                break;
+            case 4:
+                sucursal.reasignarPedido();
+                break;
+        }
     }
 
 }

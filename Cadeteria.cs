@@ -3,7 +3,7 @@ using System.Data.Common;
 class Cadeteria
 {
     private const float pagoPorEnvio = 500;
-    const string archivoCadetes = "/csv";
+    const string archivoCadetes = "csv/Cadetes.csv";
     private string nombre;
     private string telefono;
     private List<Cadete> listadoCadetes;
@@ -21,7 +21,7 @@ class Cadeteria
     public string Nombre { get => nombre; }
     public List<Pedido> ListadoTotalPedidos { get => listadoTotalPedidos; }
 
-    private void asignarPedido(Pedido nuevoPedido)
+    public void asignarPedido(Pedido nuevoPedido)
     {
         Cadete cadeteAux;
         mostrarCadetes();
@@ -39,7 +39,7 @@ class Cadeteria
             Console.WriteLine("Error al agregar el pedido");
         }
     }
-    private void reasignarPedido()
+    public void reasignarPedido()
     {
         int id, numero;
         Cadete cadeteAux;
@@ -62,7 +62,7 @@ class Cadeteria
         agregarPedido(pedidoAux);
         Console.WriteLine("Reasignacion completada!");
     }
-    private void atenderLlamada()
+    public void atenderLlamada()
     {
         Console.WriteLine("Desea cargar pedido?\n1.SI\n2.NO");
         char respuesta;
@@ -118,9 +118,9 @@ class Cadeteria
         {
             foreach (var cadete in listadoCadetes)
             {
-                Console.WriteLine("id: ", cadete.Id);
-                Console.WriteLine("Nombre: ", cadete.Nombre);
-                Console.WriteLine("Pedido Pendientes: ", contarPedidos(cadete.Id, Estado.Pendiente));
+                Console.WriteLine($"id: {cadete.Id}");
+                Console.WriteLine($"Nombre: {cadete.Nombre}");
+                Console.WriteLine($"Pedido Pendientes: {contarPedidos(cadete.Id, Estado.Pendiente)}");
                 Console.Write("\n");
             }
         }
@@ -148,9 +148,12 @@ class Cadeteria
         int entregado = 0;
         foreach (var pedidos in listadoTotalPedidos)
         {
-            if (pedidos.Estado == estadoDelPedido && pedidos.Cadete.Id == id)
+            if (pedidos.Cadete != null)
             {
-                entregado++;
+                if (pedidos.Estado == estadoDelPedido && pedidos.Cadete.Id == id)
+                {
+                    entregado++;
+                }
             }
         }
         return entregado;
@@ -172,12 +175,15 @@ class Cadeteria
     {
         foreach (var pedidos in listadoTotalPedidos)
         {
-            if (pedidos.Cadete.Id == id)
+            if (pedidos.Cadete != null)
             {
-                Console.WriteLine("Id: ", pedidos.Nro);
-                pedidos.verDatosCliente();
-            }
+                if (pedidos.Cadete.Id == id)
+                {
+                    Console.WriteLine("Id: ", pedidos.Nro);
+                    pedidos.verDatosCliente();
+                }
 
+            }
         }
     }
 
@@ -189,5 +195,38 @@ class Cadeteria
     public void agregarPedido(Pedido pedidoAAgregar)
     {
         listadoTotalPedidos.Add(pedidoAAgregar);
+    }
+
+    private Pedido seleccionPedido()
+    {
+        int numero;
+        bool respuesta, encontrado;
+        mostrarPedidosCadete();
+        Console.WriteLine("Ingrese el id del pedido a actualizar.");
+        do
+        {
+            respuesta = Int32.TryParse(Console.ReadLine(), out numero);
+            if (respuesta)
+            {
+                Console.WriteLine("cargando pedido...");
+                encontrado = listadoTotalPedidos.Exists(pedido => pedido.Nro == numero);
+                if (!encontrado)
+                {
+                    Console.WriteLine("No se encontro pedido");
+                }
+            }
+            else
+            {
+                Console.WriteLine("error en la seleccion");
+                encontrado = false;
+            }
+        } while (encontrado);
+        return listadoTotalPedidos.Find(pedido => pedido.Nro == numero);
+    }
+
+    public void cambiarEstadoPedidos()
+    {
+        Pedido pedidoACambiar = seleccionPedido();
+        pedidoACambiar.cambiarEstado();
     }
 }

@@ -31,7 +31,7 @@ class Pedido
         Console.WriteLine("Direccion: ",cliente.Nombre);
         Console.WriteLine("Refrencia: ",cliente.DatosReferenciaDireccion);
     }
-    public void cambiarEstadoPedido(){
+    public void cambiarEstado(){
         Console.WriteLine("Cual es el estado del pedido: \n1.Entregado\n2.Cancelado");
         char respuesta;
         do
