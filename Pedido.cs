@@ -23,13 +23,13 @@ class Pedido
 
     public void verDatosCliente(){
         Console.WriteLine("Datos Cliente:");
-        Console.WriteLine("Nombre: ",cliente.Nombre);
-        Console.WriteLine("Telefono: ",cliente.Telefono);
+        Console.WriteLine($"Nombre: {cliente.Nombre}");
+        Console.WriteLine($"Telefono: {cliente.Telefono}");
     }
     public void verDireccionCliente(){
         Console.WriteLine("Direccion Cliente:");
-        Console.WriteLine("Direccion: ",cliente.Nombre);
-        Console.WriteLine("Refrencia: ",cliente.DatosReferenciaDireccion);
+        Console.WriteLine($"Direccion: {cliente.Nombre}");
+        Console.WriteLine($"Refrencia: {cliente.DatosReferenciaDireccion}");
     }
     public void cambiarEstado(){
         Console.WriteLine("Cual es el estado del pedido: \n1.Entregado\n2.Cancelado");

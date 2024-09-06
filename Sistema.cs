@@ -72,10 +72,10 @@ class Sistema
         switch (tarea)
         {
             case 1:
-                sucursal.atenderLlamada();
+                sucursal.darAltaPedido();
                 break;
             case 2:
-                sucursal.atenderLlamada();
+                sucursal.asignarPedido();
                 break;
             case 3:
                 sucursal.cambiarEstadoPedidos();
