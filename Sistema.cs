@@ -1,31 +1,12 @@
 using System.Formats.Asn1;
-
 class Sistema
 {
-    const string archivoSucursales = "csv/Cadeterias.csv";
 
     private List<Cadeteria> sucursales;
 
     public List<Cadeteria> Sucursales { get => sucursales; }
 
-    public void LeerSucursales()
-    {
-        List<Cadeteria> sucursal = new List<Cadeteria>();
-        using (StreamReader sr = new StreamReader(archivoSucursales))
-        {
-            string linea;
-            sr.ReadLine();
-            while ((linea = sr.ReadLine()) != null)
-            {
-                string[] valores = linea.Split(',');
 
-                Cadeteria cadete = new Cadeteria(valores[0], valores[1], new List<Cadete>(), new List<Pedido>());
-
-                sucursal.Add(cadete);
-            }
-        }
-        sucursales = sucursal;
-    }
 
     public Cadeteria elegirSucursal()
     {
@@ -39,7 +20,7 @@ class Sistema
         Console.WriteLine("Escriba el nombre la sucursal:");
         nombre = Console.ReadLine();
         Cadeteria seleccionada = Sucursales.Find(x => x.Nombre.Contains(nombre));
-        seleccionada.LeerCadetes();
+        seleccionada = AccesoADatos.LeerCadetes();
         return seleccionada;
     }
 

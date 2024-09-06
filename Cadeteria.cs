@@ -3,7 +3,6 @@ using System.Data.Common;
 class Cadeteria
 {
     private const float pagoPorEnvio = 500;
-    const string archivoCadetes = "csv/Cadetes.csv";
     private string nombre;
     private string telefono;
     private List<Cadete> listadoCadetes;
@@ -141,24 +140,6 @@ class Cadeteria
                 Console.WriteLine($"Nombre: {cadete.Nombre}");
                 Console.WriteLine($"Pedido Pendientes: {contarPedidos(cadete.Id, Estado.Pendiente)}");
                 Console.Write("\n");
-            }
-        }
-    }
-    public void LeerCadetes()
-    {
-        List<string> lineas = new List<string>();
-
-        using (StreamReader sr = new StreamReader(archivoCadetes))
-        {
-            string linea;
-            sr.ReadLine();
-            while ((linea = sr.ReadLine()) != null)
-            {
-                string[] valores = linea.Split(',');
-
-                Cadete cadete = new Cadete(int.Parse(valores[0]), valores[1], valores[2], valores[3], new List<Pedido>());
-
-                listadoCadetes.Add(cadete);
             }
         }
     }
