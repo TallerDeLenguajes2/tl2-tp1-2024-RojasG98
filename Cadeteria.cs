@@ -127,7 +127,7 @@ class Cadeteria
         }
     }
 
-    private void mostrarCadetes()
+    public void mostrarCadetes()
     {
         if (listadoCadetes.Count == 0)
         {

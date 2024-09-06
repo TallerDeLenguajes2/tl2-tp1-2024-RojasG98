@@ -51,7 +51,8 @@ class Sistema
         Console.WriteLine("2. Asignarlos a cadetes");
         Console.WriteLine("3. Cambiarlos de estado");
         Console.WriteLine("4. reasignar el pedido a otro cadete.");
-        Console.WriteLine("5. SALIR.");
+        Console.WriteLine("5. Pagar cadete.");
+        Console.WriteLine("6. SALIR.");
 
         do
         {
@@ -69,6 +70,8 @@ class Sistema
     }
 
     public void hacerTarea(int tarea, Cadeteria sucursal){
+        int id;
+        float jornal;
         switch (tarea)
         {
             case 1:
@@ -82,6 +85,13 @@ class Sistema
                 break;
             case 4:
                 sucursal.reasignarPedido();
+                break;
+            case 5:
+                sucursal.mostrarCadetes();
+                Console.WriteLine("Ingresse el id del cadete");
+                id = Int32.Parse(Console.ReadLine());
+                jornal = sucursal.jornalACobrar(id);
+                Console.WriteLine($"El jornal a cobrar es: ${jornal:F2}");
                 break;
         }
     }
