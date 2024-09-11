@@ -18,6 +18,7 @@ class Cadeteria
     }
 
     public string Nombre { get => nombre; }
+    public string Telefono{get => telefono;}
     public List<Pedido> ListadoTotalPedidos { get => listadoTotalPedidos; }
 
     public void asignarPedido()
@@ -117,8 +118,8 @@ class Cadeteria
         if (cant != 0)
         {
             var aux = ListadoTotalPedidos.ToArray();
-            int ultimoNumero = aux[cant].Nro;
-            return ultimoNumero++;
+            int ultimoNumero = aux[cant-1].Nro;
+            return ultimoNumero+1;
         }
         else
         {

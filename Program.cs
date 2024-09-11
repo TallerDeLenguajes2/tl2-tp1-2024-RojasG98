@@ -3,16 +3,15 @@ using System.IO;
 
 Sistema program = new Sistema();
 int numero;
-program.LeerSucursales();
-Cadeteria sucursal = program.elegirSucursal();
+Cadeteria sucursal = program.cargarSucursal();
 do
 {
     numero = program.menuPrincipal();
-    if (numero != 6)
+    if (numero != 7)
     {
         program.hacerTarea(numero,sucursal);
     }
-} while (numero != 6);
+} while (numero != 7);
 
 
 

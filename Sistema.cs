@@ -1,28 +1,31 @@
 using System.Formats.Asn1;
+using System.Runtime.InteropServices;
 class Sistema
 {
 
-    private List<Cadeteria> sucursales;
-
-    public List<Cadeteria> Sucursales { get => sucursales; }
-
-
-
-    public Cadeteria elegirSucursal()
-    {
-        int cont = 1;
-        string nombre;
-        foreach (var sucursal in Sucursales)
+    public Cadeteria cargarSucursal() {
+        AccesoADatos archivoSucursal;
+        List<Cadete> cadetesAux;
+        Cadeteria sucursal;
+        Console.WriteLine("Elija el tipo de archivo que se leera: 1.CSV 2.JSON");
+        int tipoArchivo;
+        do
         {
-            Console.WriteLine(cont + ". " + sucursal.Nombre);
-            cont++;
+            tipoArchivo = Int32.Parse(Console.ReadLine());
+        } while (tipoArchivo != 1 && tipoArchivo !=2);
+        if (tipoArchivo == 1)
+        {
+            archivoSucursal = new AccesoCSV();
         }
-        Console.WriteLine("Escriba el nombre la sucursal:");
-        nombre = Console.ReadLine();
-        Cadeteria seleccionada = Sucursales.Find(x => x.Nombre.Contains(nombre));
-        seleccionada = AccesoADatos.LeerCadetes();
-        return seleccionada;
+        else
+        {
+            archivoSucursal = new AccesoJSON();
+        }
+        sucursal = archivoSucursal.LeerSucursales();
+        cadetesAux = archivoSucursal.LeerCadetes();
+        return new Cadeteria(sucursal.Nombre,sucursal.Telefono,cadetesAux,new List<Pedido>());
     }
+
 
     public int menuPrincipal()
     {
@@ -33,7 +36,8 @@ class Sistema
         Console.WriteLine("3. Cambiarlos de estado");
         Console.WriteLine("4. reasignar el pedido a otro cadete.");
         Console.WriteLine("5. Pagar cadete.");
-        Console.WriteLine("6. SALIR.");
+        Console.WriteLine("6. Mostrar Pedidos.");
+        Console.WriteLine("7. SALIR.");
 
         do
         {
@@ -73,6 +77,9 @@ class Sistema
                 id = Int32.Parse(Console.ReadLine());
                 jornal = sucursal.jornalACobrar(id);
                 Console.WriteLine($"El jornal a cobrar es: ${jornal:F2}");
+                break;
+            case 6:
+                sucursal.mostrarPedidos();
                 break;
         }
     }
