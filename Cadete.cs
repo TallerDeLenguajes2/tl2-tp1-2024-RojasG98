@@ -7,7 +7,9 @@ class Cadete
     private string nombre;
     private string direccion;
     private string telefono;
-    public Cadete(int id, string nombre, string direccion, string telefono,List<Pedido> pedidos)
+
+    public Cadete(){}
+    public Cadete(int id, string nombre, string direccion, string telefono)
     {
         this.id = id;
         this.nombre = nombre;

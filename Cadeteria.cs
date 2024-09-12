@@ -9,6 +9,9 @@ class Cadeteria
 
     private List<Pedido> listadoTotalPedidos;
 
+    public Cadeteria(){
+    }
+
     public Cadeteria(string nombre, string telefono, List<Cadete> cadetes, List<Pedido> pedidos)
     {
         this.nombre = nombre;

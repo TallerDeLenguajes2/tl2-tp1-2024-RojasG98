@@ -1,11 +1,12 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 abstract class AccesoADatos
 {
     public abstract List<Cadete> LeerCadetes();
     public abstract Cadeteria LeerSucursales();
 }
 
-class AccesoCSV:AccesoADatos
+class AccesoCSV : AccesoADatos
 {
     const string archivoCadetes = "csv/Cadetes.csv";
     const string archivoSucursales = "csv/Cadeterias.csv";
@@ -23,7 +24,7 @@ class AccesoCSV:AccesoADatos
             {
                 string[] valores = linea.Split(',');
 
-                Cadete cadete = new Cadete(int.Parse(valores[0]), valores[1], valores[2], valores[3], new List<Pedido>());
+                Cadete cadete = new Cadete(int.Parse(valores[0]), valores[1], valores[2], valores[3]);
 
                 listadoCadetes.Add(cadete);
             }
@@ -46,7 +47,7 @@ class AccesoCSV:AccesoADatos
     }
 }
 
-class AccesoJSON:AccesoADatos
+class AccesoJSON : AccesoADatos
 {
     const string archivoCadetes = "json/Cadetes.json";
     const string archivoSucursales = "json/Cadeterias.json";
@@ -58,6 +59,7 @@ class AccesoJSON:AccesoADatos
         }
 
         string jsonString = File.ReadAllText(archivoCadetes);
+
         return JsonSerializer.Deserialize<List<Cadete>>(jsonString);
     }
     public override Cadeteria LeerSucursales()
@@ -71,7 +73,8 @@ class AccesoJSON:AccesoADatos
         return JsonSerializer.Deserialize<Cadeteria>(jsonString);
     }
 
-    public bool Existe(string nombreArchivo){
+    public bool Existe(string nombreArchivo)
+    {
         return File.Exists(nombreArchivo) && new FileInfo(nombreArchivo).Length > 0;
     }
 }
