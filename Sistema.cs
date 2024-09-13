@@ -1,12 +1,15 @@
+using System.Security.Cryptography.X509Certificates;
+
 class Sistema
 {
-        public Cadeteria cargarSucursal() {
+    public Cadeteria cargarSucursal()
+    {
         AccesoADatos archivoSucursal = new AccesoADatos();
         List<Cadete> cadetesAux;
         Cadeteria sucursal;
         sucursal = archivoSucursal.LeerSucursal();
         cadetesAux = archivoSucursal.LeerCadetes();
-        return new Cadeteria(sucursal.Nombre,sucursal.Telefono,cadetesAux,new List<Pedido>());
+        return new Cadeteria(sucursal.Nombre, sucursal.Telefono, cadetesAux, new List<Pedido>());
     }
     public int menuPrincipal()
     {
@@ -16,49 +19,68 @@ class Sistema
         Console.WriteLine("2. Asignarlos a cadetes");
         Console.WriteLine("3. Cambiarlos de estado");
         Console.WriteLine("4. reasignar el pedido a otro cadete.");
-        Console.WriteLine("5. Pagar cadete.");
-        Console.WriteLine("6. Mostrar Pedidos.");
-        Console.WriteLine("7. Finalizar.");
+        Console.WriteLine("5. Finalizar.");
 
         do
         {
-            respuesta = Int32.TryParse(Console.ReadLine(),out numero);
+            respuesta = Int32.TryParse(Console.ReadLine(), out numero);
             if (respuesta)
             {
                 break;
             }
-        } while (!respuesta && (numero == 1 || numero == 2 || numero == 3 || numero == 4 || numero== 5));
+        } while (!respuesta && (numero == 1 || numero == 2 || numero == 3 || numero == 4 || numero == 5));
         return numero;
     }
 
-        public void hacerTarea(int tarea, Cadeteria sucursal){
-        int id;
-        float jornal;
+    public bool hacerTarea(int tarea, Cadeteria sucursal)
+    {
         switch (tarea)
         {
             case 1:
                 sucursal.darAltaPedido();
-                break;
+                return true;
             case 2:
                 sucursal.asignarPedido();
-                break;
+                return true;
             case 3:
-                sucursal.cambiarEstadoPedidos();
-                break;
+                int idCadete, nroPedido, seleccionEstado;
+                Estado nuevoEstado = Estado.Pendiente;
+                sucursal.mostrarCadetes();
+                Console.WriteLine("Elija el cadete");
+                idCadete = Int32.Parse(Console.ReadLine());
+                Cadete cadeteAux = sucursal.ListadoCadetes.Find(x => x.Id == idCadete);
+                cadeteAux.mostrarPedidosCadete();
+                Console.WriteLine("Elija el pedido");
+                nroPedido = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("Cual es el estado? 1. Entregado 2.Cancelado");
+                do
+                {
+                    seleccionEstado = Int32.Parse(Console.ReadLine());
+                    if (seleccionEstado == 1)
+                    {
+                        nuevoEstado = Estado.Entregado;
+                    }
+                    else
+                    {
+                        if (seleccionEstado == 2)
+                        {
+                            nuevoEstado = Estado.Cancelado;
+
+                        }
+                    }
+                } while (seleccionEstado != 1 || seleccionEstado != 2);
+                cadeteAux.cambiarEstadoPedido(nuevoEstado,nroPedido);
+                return true;
             case 4:
                 sucursal.reasignarPedido();
-                break;
+                return true;
             case 5:
-                sucursal.mostrarCadetes();
-                Console.WriteLine("Ingresse el id del cadete");
-                id = Int32.Parse(Console.ReadLine());
-                jornal = sucursal.jornalACobrar(id);
-                Console.WriteLine($"El jornal a cobrar es: ${jornal:F2}");
-                break;
-            case 6:
-                sucursal.mostrarPedidos();
-                break;
+                sucursal.mostrarInforme();
+                Console.WriteLine("Presione Cualquier tecla para salir:");
+                Console.ReadLine();
+                return false;
+            default:
+                return true;
         }
-
-
+    }
 }

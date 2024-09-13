@@ -19,7 +19,7 @@ class Cadete
         this.listadoPedidos = pedidos;
     }
 
-    public int Id { get => Id;}
+    public int Id { get => id;}
     public string Nombre { get => nombre;}
     internal List<Pedido> ListadoPedidos { get => listadoPedidos; }
 
@@ -40,7 +40,7 @@ class Cadete
     public void mostrarPedidosCadete(){
         foreach (var pedidos in listadoPedidos)
         {
-            Console.WriteLine("Id: ",pedidos.Nro);
+            Console.WriteLine($"Id: {pedidos.Nro}");
             pedidos.verDatosCliente();
         }
     }
@@ -50,5 +50,9 @@ class Cadete
 
     public void agregarPedido(Pedido pedidoAAgregar){
         listadoPedidos.Add(pedidoAAgregar);
+    }
+
+    public void cambiarEstadoPedido(Estado pedido, int nroPedido){
+        listadoPedidos.Find(pedido => pedido.Nro == nroPedido).cambiarEstado();
     }
 }
