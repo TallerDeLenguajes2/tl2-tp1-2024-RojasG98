@@ -70,9 +70,10 @@ class AccesoJSON : AccesoADatos
         }
 
         string jsonString = File.ReadAllText(archivoSucursales);
-        return JsonSerializer.Deserialize<Cadeteria>(jsonString);
+        Cadeteria cadeteria = JsonSerializer.Deserialize<Cadeteria>(jsonString);
+        return cadeteria;
+    
     }
-
     public bool Existe(string nombreArchivo)
     {
         return File.Exists(nombreArchivo) && new FileInfo(nombreArchivo).Length > 0;

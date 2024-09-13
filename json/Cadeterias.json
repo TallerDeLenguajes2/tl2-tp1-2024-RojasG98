@@ -1,7 +1,7 @@
 {
-    "nombre": "Tucuman",
-    "telefono": "567890",
-    "listadoCadetes": [],
-    "listadoTotalPedidos": []
-  }
+    "Nombre": "Tucuman",
+    "Telefono": "567890",
+    "ListadoCadetes": [],
+    "ListadoTotalPedidos": []
+}
   

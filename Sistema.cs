@@ -3,7 +3,8 @@ using System.Runtime.InteropServices;
 class Sistema
 {
 
-    public Cadeteria cargarSucursal() {
+    public Cadeteria cargarSucursal()
+    {
         AccesoADatos archivoSucursal;
         List<Cadete> cadetesAux;
         Cadeteria sucursal;
@@ -12,7 +13,7 @@ class Sistema
         do
         {
             tipoArchivo = Int32.Parse(Console.ReadLine());
-        } while (tipoArchivo != 1 && tipoArchivo !=2);
+        } while (tipoArchivo != 1 && tipoArchivo != 2);
         if (tipoArchivo == 1)
         {
             archivoSucursal = new AccesoCSV();
@@ -23,7 +24,7 @@ class Sistema
         }
         sucursal = archivoSucursal.LeerSucursales();
         cadetesAux = archivoSucursal.LeerCadetes();
-        return new Cadeteria(sucursal.Nombre,sucursal.Telefono,cadetesAux,new List<Pedido>());
+        return new Cadeteria(sucursal.Nombre, sucursal.Telefono, cadetesAux, new List<Pedido>());
     }
 
 
@@ -41,7 +42,7 @@ class Sistema
 
         do
         {
-            respuesta = Int32.TryParse(Console.ReadLine(),out numero);
+            respuesta = Int32.TryParse(Console.ReadLine(), out numero);
             if (respuesta)
             {
                 Console.WriteLine("cargando sistema...");
@@ -50,37 +51,47 @@ class Sistema
             {
                 Console.WriteLine("opcion no valida");
             }
-        } while (!respuesta && (numero == 1 || numero == 2 || numero == 3 || numero == 4 || numero== 5));
+        } while (!respuesta && numero < 7 && numero > 0);
         return numero;
     }
 
-    public void hacerTarea(int tarea, Cadeteria sucursal){
+    public bool hacerTarea(int tarea, Cadeteria sucursal)
+    {
         int id;
         float jornal;
         switch (tarea)
         {
             case 1:
                 sucursal.darAltaPedido();
-                break;
+                return true;
             case 2:
                 sucursal.asignarPedido();
-                break;
+                return true;
             case 3:
                 sucursal.cambiarEstadoPedidos();
-                break;
+                return true;
             case 4:
                 sucursal.reasignarPedido();
-                break;
+                return true;
             case 5:
                 sucursal.mostrarCadetes();
                 Console.WriteLine("Ingresse el id del cadete");
                 id = Int32.Parse(Console.ReadLine());
                 jornal = sucursal.jornalACobrar(id);
                 Console.WriteLine($"El jornal a cobrar es: ${jornal:F2}");
-                break;
+                return true;
+
             case 6:
                 sucursal.mostrarPedidos();
-                break;
+                return true;
+
+            case 7:
+                sucursal.mostrarInforme();
+                Console.WriteLine("Presione Cualquier tecla para salir:");
+                Console.ReadLine();
+                return false;
+            default:
+                return true;
         }
     }
 

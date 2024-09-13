@@ -1,32 +1,32 @@
 [
   {
-    "id": 1,
-    "nombre": "Juan Perez",
-    "direccion": "Calle Falsa 123",
-    "telefono": "555-1234"
+    "Id": 1,
+    "Nombre": "Juan Perez",
+    "Direccion": "Calle Falsa 123",
+    "Telefono": "555-1234"
   },
   {
-    "id": 2,
-    "nombre": "Maria Lopez",
-    "direccion": "Avenida Siempre Viva 742",
-    "telefono": "555-5678"
+    "Id": 2,
+    "Nombre": "Maria Lopez",
+    "Direccion": "Avenida Siempre Viva 742",
+    "Telefono": "555-5678"
   },
   {
-    "id": 3,
-    "nombre": "Carlos Gomez",
-    "direccion": "Calle del Sol 456",
-    "telefono": "555-8765"
+    "Id": 3,
+    "Nombre": "Carlos Gomez",
+    "Direccion": "Calle del Sol 456",
+    "Telefono": "555-8765"
   },
   {
-    "id": 4,
-    "nombre": "Laura Martinez",
-    "direccion": "Paseo de la Reforma 123",
-    "telefono": "555-4321"
+    "Id": 4,
+    "Nombre": "Laura Martinez",
+    "Direccion": "Paseo de la Reforma 123",
+    "Telefono": "555-4321"
   },
   {
-    "id": 5,
-    "nombre": "Pedro Sanchez",
-    "direccion": "Calle Luna 789",
-    "telefono": "555-9876"
+    "Id": 5,
+    "Nombre": "Pedro Sanchez",
+    "Direccion": "Calle Luna 789",
+    "Telefono": "555-9876"
   }
  ]

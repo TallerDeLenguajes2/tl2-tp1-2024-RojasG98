@@ -1,28 +1,28 @@
 using System.Data.Common;
+using System.Text.Json.Serialization;
 
 class Cadeteria
 {
     private const float pagoPorEnvio = 500;
+    
     private string nombre;
     private string telefono;
     private List<Cadete> listadoCadetes;
-
     private List<Pedido> listadoTotalPedidos;
 
-    public Cadeteria(){
-    }
-
-    public Cadeteria(string nombre, string telefono, List<Cadete> cadetes, List<Pedido> pedidos)
+    public Cadeteria(){}
+    public Cadeteria(string nombre, string telefono, List<Cadete> listadoCadetes, List<Pedido> listadoTotalPedidos)
     {
         this.nombre = nombre;
         this.telefono = telefono;
-        listadoCadetes = cadetes;
-        listadoTotalPedidos = pedidos;
+        this.listadoCadetes = listadoCadetes;
+        this.listadoTotalPedidos = listadoTotalPedidos;
     }
 
-    public string Nombre { get => nombre; }
-    public string Telefono{get => telefono;}
-    public List<Pedido> ListadoTotalPedidos { get => listadoTotalPedidos; }
+    public string Nombre { get => nombre; set => nombre = value; }
+    public string Telefono{get => telefono; set => telefono = value;}
+    public List<Pedido> ListadoTotalPedidos { get => listadoTotalPedidos; set => listadoTotalPedidos = value;}
+    internal List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
 
     public void asignarPedido()
     {
@@ -247,5 +247,24 @@ class Cadeteria
     {
         Pedido pedidoACambiar = seleccionPedido();
         pedidoACambiar.cambiarEstado();
+    }
+        public void mostrarInforme(){
+        Console.WriteLine("-----------Informe del Dia-----------");
+        Console.WriteLine("-----------Envios Cadete-----------");
+
+        int cantidadEnviodelDia = 0;
+        foreach (var cadetes in listadoCadetes)
+        {
+            Console.WriteLine($"Id Cadete: {cadetes.Id}");
+            Console.WriteLine($"Nombre: {cadetes.Nombre}");
+            int entregadosCadete = listadoTotalPedidos.TakeWhile(X => X.Estado == Estado.Entregado && X.Cadete.Id == cadetes.Id).Count();
+            cantidadEnviodelDia += entregadosCadete;
+            Console.WriteLine($"Envios entregados: {entregadosCadete}");
+        }
+        int cantidadDeCadetes = listadoCadetes.Count();
+        float promedioDeEnvios = cantidadEnviodelDia/cantidadDeCadetes;
+        Console.WriteLine($"Envios Totales:{cantidadEnviodelDia}");
+        Console.WriteLine($"Promedio del Dia:{promedioDeEnvios}");
+
     }
 }
