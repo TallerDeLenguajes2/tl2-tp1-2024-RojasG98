@@ -31,13 +31,7 @@ class Pedido
         Console.WriteLine($"Direccion: {cliente.Nombre}");
         Console.WriteLine($"Refrencia: {cliente.DatosReferenciaDireccion}");
     }
-    public void cambiarEstado(){
-        Console.WriteLine("Cual es el estado del pedido: \n1.Entregado\n2.Cancelado");
-        char respuesta;
-        do
-        {
-            respuesta = Console.ReadKey().KeyChar;
-        } while (respuesta == 1 || respuesta == 2);
+    public bool cambiarEstado(char respuesta){
         switch (respuesta)
         {
             case '1':
@@ -47,13 +41,15 @@ class Pedido
                 estado = Estado.Cancelado;
                 break;
         }
+        return true;
     }
-    public void asignarCadete(Cadete cadeteAux){
+    public bool asignarCadete(Cadete cadeteAux){
         cadete = cadeteAux;
+        return true;
     }
     
 }
-
+//puedo castear un int a el estado (Estado)numeroIngresado
 enum Estado {
     Entregado,
     Cancelado,

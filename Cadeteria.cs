@@ -24,79 +24,64 @@ class Cadeteria
     public List<Pedido> ListadoTotalPedidos { get => listadoTotalPedidos; set => listadoTotalPedidos = value;}
     internal List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
 
-    public void asignarPedido()
+    public bool asignarPedido(int id, Pedido pedido)
     {
         Cadete cadeteAux;
-        Pedido pedidoAux;
-        pedidoAux = elegirPedido();
-        if (pedidoAux != null)
+        if (pedido != null)
         {
-            mostrarCadetes();
-            Console.WriteLine("Elija un cadete para asignar el pedido: ");
-            int id = Int32.Parse(Console.ReadLine());
-            if (listadoTotalPedidos.Exists(x => x.Nro == pedidoAux.Nro))
+            if (listadoTotalPedidos.Exists(x => x.Nro == pedido.Nro))
             {
                 cadeteAux = listadoCadetes.Find(x => x.Id == id);
-                pedidoAux.asignarCadete(cadeteAux);
+                pedido.asignarCadete(cadeteAux);
+                return true;
             }
             else
             {
-                Console.WriteLine("Error al agregar el pedido");
+                return false;
             }
         }
+        return false;
 
     }
 
-    private Pedido elegirPedido()
-    {
-        Pedido pedidoAux;
-        if (mostrarPedidosSinAsignar())
-        {
-            Console.WriteLine("Elija un pedido para asignar: ");
-            int nroPedido = Int32.Parse(Console.ReadLine());
-            pedidoAux = ListadoTotalPedidos.Find(x => x.Nro == nroPedido);
-        }
-        else
-        {
-            pedidoAux = null;
-        }
+    // private Pedido elegirPedido()
+    // {
+    //     Pedido pedidoAux;
+    //     if (mostrarPedidosSinAsignar())
+    //     {
+    //         Console.WriteLine("Elija un pedido para asignar: ");
+    //         int nroPedido = Int32.Parse(Console.ReadLine());
+    //         pedidoAux = ListadoTotalPedidos.Find(x => x.Nro == nroPedido);
+    //     }
+    //     else
+    //     {
+    //         pedidoAux = null;
+    //     }
 
-        return pedidoAux;
-    }
+    //     return pedidoAux;
+    // }
 
-    public void reasignarPedido()
+    public bool reasignarPedido(int idCadete, int idPedido)
     {
-        int id, numero;
         Cadete cadeteAux;
         Pedido pedidoAux;
-        mostrarCadetes();
-        Console.WriteLine("Coloque el numero de cadete");
-        id = Int32.Parse(Console.ReadLine());
-        Console.Clear();
-        mostrarPedidos();
-        Console.WriteLine("Coloque el numero de pedido a reasignar");
-        numero = Int32.Parse(Console.ReadLine());
-        pedidoAux = ListadoTotalPedidos.Find(x => x.Nro == numero);
-        Thread.Sleep(1000);
-        Console.Clear();
+        pedidoAux = ListadoTotalPedidos.Find(x => x.Nro == idPedido);
         Console.WriteLine("Coloque el numero de cadete a reasignar el pedido");
-        id = Int32.Parse(Console.ReadLine());
-        cadeteAux = listadoCadetes.Find(x => x.Id == id);
+        cadeteAux = listadoCadetes.Find(x => x.Id == idCadete);
         pedidoAux.asignarCadete(cadeteAux);
-        Console.WriteLine("Reasignacion completada!");
+        return true;
     }
-    public void darAltaPedido()
+    public bool darAltaPedido(int respuesta)
     {
-        Console.WriteLine("Desea cargar pedido?\n1.SI\n2.NO");
-        char respuesta;
-        do
-        {
-            respuesta = Console.ReadKey().KeyChar;
-        } while (respuesta == 1 || respuesta == 2);
         if (respuesta == '1')
         {
             Pedido nuevoPedido = tomarPedido();
             ListadoTotalPedidos.Add(nuevoPedido);
+            return true;
+        }
+        else
+        {
+            return false;
         }
 
     }
@@ -216,55 +201,54 @@ class Cadeteria
         listadoTotalPedidos.Add(pedidoAAgregar);
     }
 
-    private Pedido seleccionPedido()
+    // private Pedido seleccionPedido()
+    // {
+    //     int numero;
+    //     bool respuesta, encontrado;
+    //     mostrarPedidosSinAsignar();
+    //     Console.WriteLine("Ingrese el id del pedido a actualizar.");
+    //     do
+    //     {
+    //         respuesta = Int32.TryParse(Console.ReadLine(), out numero);
+    //         if (respuesta)
+    //         {
+    //             Console.WriteLine("cargando pedido...");
+    //             encontrado = listadoTotalPedidos.Exists(pedido => pedido.Nro == numero);
+    //             if (!encontrado)
+    //             {
+    //                 Console.WriteLine("No se encontro pedido");
+    //             }
+    //         }
+    //         else
+    //         {
+    //             Console.WriteLine("error en la seleccion");
+    //             encontrado = false;
+    //         }
+    //     } while (!encontrado);
+    //     return listadoTotalPedidos.Find(pedido => pedido.Nro == numero);
+    // }
+
+    public void cambiarEstadoPedidos(Pedido pedido, char estado)
     {
-        int numero;
-        bool respuesta, encontrado;
-        mostrarPedidosSinAsignar();
-        Console.WriteLine("Ingrese el id del pedido a actualizar.");
-        do
-        {
-            respuesta = Int32.TryParse(Console.ReadLine(), out numero);
-            if (respuesta)
-            {
-                Console.WriteLine("cargando pedido...");
-                encontrado = listadoTotalPedidos.Exists(pedido => pedido.Nro == numero);
-                if (!encontrado)
-                {
-                    Console.WriteLine("No se encontro pedido");
-                }
-            }
-            else
-            {
-                Console.WriteLine("error en la seleccion");
-                encontrado = false;
-            }
-        } while (!encontrado);
-        return listadoTotalPedidos.Find(pedido => pedido.Nro == numero);
+        pedido.cambiarEstado(estado);
     }
+    //     public void mostrarInforme(){
+    //     Console.WriteLine("-----------Informe del Dia-----------");
+    //     Console.WriteLine("-----------Envios Cadete-----------");
 
-    public void cambiarEstadoPedidos()
-    {
-        Pedido pedidoACambiar = seleccionPedido();
-        pedidoACambiar.cambiarEstado();
-    }
-        public void mostrarInforme(){
-        Console.WriteLine("-----------Informe del Dia-----------");
-        Console.WriteLine("-----------Envios Cadete-----------");
+    //     int cantidadEnviodelDia = 0;
+    //     foreach (var cadetes in listadoCadetes)
+    //     {
+    //         Console.WriteLine($"Id Cadete: {cadetes.Id}");
+    //         Console.WriteLine($"Nombre: {cadetes.Nombre}");
+    //         int entregadosCadete = listadoTotalPedidos.TakeWhile(X => X.Estado == Estado.Entregado && X.Cadete.Id == cadetes.Id).Count();
+    //         cantidadEnviodelDia += entregadosCadete;
+    //         Console.WriteLine($"Envios entregados: {entregadosCadete}");
+    //     }
+    //     int cantidadDeCadetes = listadoCadetes.Count();
+    //     float promedioDeEnvios = cantidadEnviodelDia/cantidadDeCadetes;
+    //     Console.WriteLine($"Envios Totales:{cantidadEnviodelDia}");
+    //     Console.WriteLine($"Promedio del Dia:{promedioDeEnvios}");
 
-        int cantidadEnviodelDia = 0;
-        foreach (var cadetes in listadoCadetes)
-        {
-            Console.WriteLine($"Id Cadete: {cadetes.Id}");
-            Console.WriteLine($"Nombre: {cadetes.Nombre}");
-            int entregadosCadete = listadoTotalPedidos.TakeWhile(X => X.Estado == Estado.Entregado && X.Cadete.Id == cadetes.Id).Count();
-            cantidadEnviodelDia += entregadosCadete;
-            Console.WriteLine($"Envios entregados: {entregadosCadete}");
-        }
-        int cantidadDeCadetes = listadoCadetes.Count();
-        float promedioDeEnvios = cantidadEnviodelDia/cantidadDeCadetes;
-        Console.WriteLine($"Envios Totales:{cantidadEnviodelDia}");
-        Console.WriteLine($"Promedio del Dia:{promedioDeEnvios}");
-
-    }
+    // }
 }
